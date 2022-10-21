@@ -1,0 +1,126 @@
+--- Config.kmk	2018-07-16 07:56:47.000000000 -0700
++++ Config.kmk	2022-10-20 22:02:58.628579024 -0700
+@@ -1501,12 +1501,12 @@
+    TOOL_GXX3PLAIN_LD_SYSMOD ?= /usr/ccs/bin/ld
+   endif
+  else
+-  VBOX_GCC_TOOL := GXX3
++  VBOX_GCC_TOOL := AFL
+   ifeq ($(KBUILD_TARGET_ARCH).$(KBUILD_HOST_ARCH),x86.amd64) ## @todo mixing target/host here!
+-   VBOX_GCC_TOOL := GXX32
++   VBOX_GCC_TOOL := AFL
+    VBOX_WITH_VBOXDRV=
+   else ifeq ($(KBUILD_TARGET_ARCH).$(KBUILD_HOST_ARCH),amd64.x86)
+-   VBOX_GCC_TOOL := GXX64
++   VBOX_GCC_TOOL := AFL
+    VBOX_WITH_VBOXDRV=
+   endif
+  endif
+@@ -1549,7 +1549,7 @@
+ # Default too nonsense.
+ #
+ ## @todo Remove the default tool crap here!
+-TOOL = $(VBOX_GCC_TOOL)
++TOOL = AFL
+ TOOL.win.x86 = $(VBOX_VCC_TOOL_STEM)X86
+ TOOL.win.amd64 = $(VBOX_VCC_TOOL_STEM)AMD64
+ ASTOOL = $(VBOX_ASTOOL)
+@@ -4215,7 +4215,7 @@
+ endif # pe
+ 
+ ifeq ($(VBOX_LDR_FMT),elf)
+-TEMPLATE_VBoxR0_TOOL                = $(VBOX_GCC_TOOL)
++TEMPLATE_VBoxR0_TOOL                = AFL
+ TEMPLATE_VBoxR0_CFLAGS              = -fno-pie -nostdinc -g $(VBOX_GCC_pipe) $(VBOX_GCC_WERR) $(VBOX_GCC_PEDANTIC_C)   $(VBOX_GCC_Wno-variadic-macros) $(VBOX_GCC_R0_OPT) $(VBOX_GCC_R0_FP) -fno-strict-aliasing -fno-exceptions $(VBOX_GCC_fno-stack-protector) -fno-common $(VBOX_GCC_fvisibility-hidden) -std=gnu99 $(VBOX_GCC_IPRT_FMT_CHECK)
+ TEMPLATE_VBoxR0_CXXFLAGS            = -fno-pie -nostdinc -g $(VBOX_GCC_pipe) $(VBOX_GCC_WERR) $(VBOX_GCC_PEDANTIC_CXX) $(VBOX_GCC_Wno-variadic-macros) $(VBOX_GCC_R0_OPT) $(VBOX_GCC_R0_FP) -fno-strict-aliasing -fno-exceptions $(VBOX_GCC_fno-stack-protector) -fno-common $(VBOX_GCC_fvisibility-inlines-hidden) $(VBOX_GCC_fvisibility-hidden) -fno-rtti $(VBOX_GCC_IPRT_FMT_CHECK)
+ TEMPLATE_VBoxR0_CFLAGS.amd64        = -m64 -mno-red-zone -mcmodel=kernel -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -fno-asynchronous-unwind-tables -ffreestanding
+@@ -4789,7 +4789,7 @@
+  endif
+ 
+ else # the gcc guys
+-TEMPLATE_VBOXR3EXE_TOOL                = $(VBOX_GCC_TOOL)
++TEMPLATE_VBOXR3EXE_TOOL                = AFL
+ TEMPLATE_VBOXR3EXE_CXXFLAGS            = -g $(VBOX_GCC_pipe) $(VBOX_GCC_PEDANTIC_CXX) $(VBOX_GCC_Wno-variadic-macros) $(VBOX_GCC_OPT) \
+  	$(VBOX_GCC_FP) -fno-strict-aliasing $(VBOX_GCC_fvisibility-hidden) $(VBOX_GCC_fvisibility-inlines-hidden) $(VBOX_GCC_IPRT_FMT_CHECK)
+  ifdef VBOX_WITH_NO_GCC_WARNING_POLICY
+@@ -5087,7 +5087,7 @@
+  TEMPLATE_VBoxR3StaticNonPedantic_CXXFLAGS = $(TEMPLATE_VBoxR3Static_CXXFLAGS) $(VBOX_VCC_NON_PEDANTIC)
+  TEMPLATE_VBoxR3StaticNonPedantic_CFLAGS   = $(TEMPLATE_VBoxR3Static_CFLAGS)   $(VBOX_VCC_NON_PEDANTIC)
+ else # gcc:
+- TEMPLATE_VBoxR3StaticNonPedantic_TOOL     = $(VBOX_GCC_TOOL)
++ TEMPLATE_VBoxR3StaticNonPedantic_TOOL     = AFL
+  TEMPLATE_VBoxR3StaticNonPedantic_CXXFLAGS = $(filter-out $(VBOX_GCC_WERR) $(VBOX_GCC_WARN_MASOCHISTIC) $(VBOX_GCC_PEDANTIC_CXX),$(TEMPLATE_VBoxR3Static_CXXFLAGS)) \
+  	$(VBOX_GCC_NON_PEDANTIC_CXX)
+  TEMPLATE_VBoxR3StaticNonPedantic_CFLAGS   = $(filter-out $(VBOX_GCC_WERR) $(VBOX_GCC_WARN_MASOCHISTIC) $(VBOX_GCC_PEDANTIC_C)  ,$(TEMPLATE_VBoxR3Static_CFLAGS)) \
+@@ -5318,7 +5318,7 @@
+ TEMPLATE_VBOXR3TSTNPEXE  = VBox Ring 3 Testcase Exe Non-pedantic
+ TEMPLATE_VBOXR3TSTNPEXE_EXTENDS = VBOXR3TSTEXE
+ ifneq ($(KBUILD_TARGET),win) # (only gcc)
+- TEMPLATE_VBOXR3TSTNPEXE_TOOL             = $(VBOX_GCC_TOOL)
++ TEMPLATE_VBOXR3TSTNPEXE_TOOL             = AFL
+  TEMPLATE_VBOXR3TSTNPEXE_CXXFLAGS         = $(filter-out $(VBOX_GCC_WERR) $(VBOX_GCC_WARN_MASOCHISTIC) $(VBOX_GCC_PEDANTIC_CXX),$(TEMPLATE_VBOXR3TSTEXE_CXXFLAGS)) \
+  	-Wno-sign-compare
+  TEMPLATE_VBOXR3TSTNPEXE_CFLAGS           = $(filter-out $(VBOX_GCC_WERR) $(VBOX_GCC_WARN_MASOCHISTIC) $(VBOX_GCC_PEDANTIC_C)  ,$(TEMPLATE_VBOXR3TSTEXE_CFLAGS)) \
+@@ -5356,7 +5356,7 @@
+ TEMPLATE_VBOXR3NPEXE                     = VBox Ring 3 Non-pedantic
+ TEMPLATE_VBOXR3NPEXE_EXTENDS             = VBOXR3EXE
+ ifneq ($(KBUILD_TARGET),win) # (only gcc)
+- TEMPLATE_VBOXR3NPEXE_TOOL               = $(VBOX_GCC_TOOL)
++ TEMPLATE_VBOXR3NPEXE_TOOL               = AFL
+  TEMPLATE_VBOXR3NPEXE_CXXFLAGS           = $(filter-out $(VBOX_GCC_WERR) $(VBOX_GCC_WARN_MASOCHISTIC) $(VBOX_GCC_PEDANTIC_CXX),$(TEMPLATE_VBOXR3EXE_CXXFLAGS)) \
+  	$(VBOX_GCC_NON_PEDANTIC_CXX)
+  TEMPLATE_VBOXR3NPEXE_CFLAGS             = $(filter-out $(VBOX_GCC_WERR) $(VBOX_GCC_WARN_MASOCHISTIC) $(VBOX_GCC_PEDANTIC_C)  ,$(TEMPLATE_VBOXR3EXE_CFLAGS)) \
+@@ -5373,7 +5373,7 @@
+ TEMPLATE_VBOXR3NP = VBox Ring 3 Non-pedantic
+ TEMPLATE_VBOXR3NP_EXTENDS = VBOXR3
+ ifneq ($(KBUILD_TARGET),win) # (only gcc)
+- TEMPLATE_VBOXR3NP_TOOL                  = $(VBOX_GCC_TOOL)
++ TEMPLATE_VBOXR3NP_TOOL                  = AFL
+  TEMPLATE_VBOXR3NP_CXXFLAGS              = $(filter-out $(VBOX_GCC_WERR) $(VBOX_GCC_WARN_MASOCHISTIC) $(VBOX_GCC_PEDANTIC_CXX),$(TEMPLATE_VBOXR3_CXXFLAGS)) \
+  	$(VBOX_GCC_NON_PEDANTIC_CXX)
+  TEMPLATE_VBOXR3NP_CFLAGS                = $(filter-out $(VBOX_GCC_WERR) $(VBOX_GCC_WARN_MASOCHISTIC) $(VBOX_GCC_PEDANTIC_C)  ,$(TEMPLATE_VBOXR3_CFLAGS)) \
+@@ -5393,7 +5393,7 @@
+  TEMPLATE_VBoxR3DllNonPedantic_CXXFLAGS     = $(TEMPLATE_VBOXR3_CXXFLAGS) $(VBOX_VCC_NON_PEDANTIC)
+  TEMPLATE_VBoxR3DllNonPedantic_CFLAGS       = $(TEMPLATE_VBOXR3_CFLAGS)   $(VBOX_VCC_NON_PEDANTIC)
+ else # gcc:
+- TEMPLATE_VBoxR3DllNonPedantic_TOOL         = $(VBOX_GCC_TOOL)
++ TEMPLATE_VBoxR3DllNonPedantic_TOOL         = AFL
+  TEMPLATE_VBoxR3DllNonPedantic_CXXFLAGS     = $(filter-out $(VBOX_GCC_WERR) $(VBOX_GCC_WARN_MASOCHISTIC) $(VBOX_GCC_PEDANTIC_CXX),$(TEMPLATE_VBOXR3_CXXFLAGS)) \
+  	$(VBOX_GCC_NON_PEDANTIC_CXX)
+  TEMPLATE_VBoxR3DllNonPedantic_CFLAGS       = $(filter-out $(VBOX_GCC_WERR) $(VBOX_GCC_WARN_MASOCHISTIC) $(VBOX_GCC_PEDANTIC_C)  ,$(TEMPLATE_VBOXR3_CFLAGS)) \
+@@ -5515,7 +5515,7 @@
+ else
+  # Use the default GCC.
+  # The use of --exclude-libs ALL is to avoid confusing the linux ld.so.
+- TEMPLATE_VBoxNoCrtGccLib_TOOL             = $(VBOX_GCC_TOOL)
++ TEMPLATE_VBoxNoCrtGccLib_TOOL             = AFL
+  TEMPLATE_VBoxNoCrtGccLib_ASTOOL           = $(VBOX_ASTOOL)
+  TEMPLATE_VBoxNoCrtGccLib_ASFLAGS          = $(VBOX_ASFLAGS)
+  TEMPLATE_VBoxNoCrtGccLib_CFLAGS          += $(VBOX_GCC_fno-stack-protector)
+@@ -5629,7 +5629,7 @@
+ 
+ else # the GCC guys:
+ 
+-TEMPLATE_VBOXMAINEXE_TOOL                = $(VBOX_GCC_TOOL)
++TEMPLATE_VBOXMAINEXE_TOOL                = AFL
+ TEMPLATE_VBOXMAINEXE_CXXFLAGS            = -g $(VBOX_GCC_pipe) \
+ 	$(VBOX_GCC_PEDANTIC_CXX) $(VBOX_GCC_Wno-variadic-macros) -Wshadow \
+ 	-fshort-wchar -fpermissive -fexceptions -frtti $(VBOX_GCC_OPT) $(VBOX_GCC_FP) -fno-strict-aliasing \
+@@ -6154,7 +6154,7 @@
+   TEMPLATE_VBOXQTGUIEXE_POST_CMDS = $(VBOX_SIGN_IMAGE_CMDS)
+ 
+  else # the gcc guys:
+-  TEMPLATE_VBOXQTGUIEXE_TOOL = $(VBOX_GCC_TOOL)
++  TEMPLATE_VBOXQTGUIEXE_TOOL = AFL
+   TEMPLATE_VBOXQTGUIEXE_DEFS.linux = _REENTRANT
+ 
+   TEMPLATE_VBOXQTGUIEXE_DEFS.solaris = _REENTRANT
+@@ -6369,7 +6369,7 @@
+ 
+ else
+ # (gcc of some kind )
+-TEMPLATE_VBoxBldProg_TOOL                = GXX3
++TEMPLATE_VBoxBldProg_TOOL                = AFL
+ TEMPLATE_VBoxBldProg_CFLAGS              = -g $(VBOX_GCC_pipe) $(VBOX_GCC_PEDANTIC_C) $(VBOX_GCC_Wno-variadic-macros)
+  ifdef VBOX_WITH_NO_GCC_WARNING_POLICY
+   TEMPLATE_VBoxBldProg_CFLAGS           += $(VBOX_GCC_WERR)
