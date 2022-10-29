@@ -52,8 +52,8 @@ TOOL_AFL_CC        ?= afl-gcc-fast$(HOSTSUFF_EXE) -m64
 TOOL_AFL_CXX       ?= afl-g++-fast$(HOSTSUFF_EXE) -m64
 TOOL_AFL_PCH      ?= $(TOOL_AFL_CXX)
 TOOL_AFL_AS        ?= afl-gcc-fast$(HOSTSUFF_EXE) -m64
-TOOL_AFL_AR        ?= llvm-ar$(HOSTSUFF_EXE)
-# TOOL_AFL_AR        ?= ar$(HOSTSUFF_EXE)
+# TOOL_AFL_AR        ?= llvm-ar$(HOSTSUFF_EXE)
+TOOL_AFL_AR        ?= ar$(HOSTSUFF_EXE)
 TOOL_AFL_LD        ?= afl-g++-fast$(HOSTSUFF_EXE) -m64
 if1of ($(KBUILD_HOST), solaris)
  TOOL_AFL_LD_SYSMOD ?= $(TOOL_AFL_PREFIX3)ld$(TOOL_AFL_SUFFIX3)
