@@ -1,0 +1,12 @@
+--- VirtualBox-5.2.16/src/VBox/Additions/x11/undefined_xfree86_modules	2018-07-16 07:57:11.000000000 -0700
++++ VirtualBox-5.2.16/src/VBox/Additions/x11/undefined_xfree86_modules	2022-10-29 06:30:44.675873821 -0700
+@@ -1,6 +1,9 @@
+ # This file contains the list of symbols from XFree86 modules which we use.
+ # These symbols must also be explicitly declared in the driver code.
+ 
++__afl_area_ptr
++__afl_prev_loc
++
+ fbPictureInit
+ fbScreenInit
+ ShadowFBInit2

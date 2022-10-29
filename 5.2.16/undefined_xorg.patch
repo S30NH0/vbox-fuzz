@@ -1,0 +1,12 @@
+--- VirtualBox-5.2.16/src/VBox/Additions/x11/undefined_xorg	2018-07-16 07:57:11.000000000 -0700
++++ VirtualBox-5.2.16/src/VBox/Additions/x11/undefined_xorg	2022-10-29 06:30:26.172816602 -0700
+@@ -3,6 +3,9 @@
+ # in XFree86 4.3.  Some of these may only be allowed on some platforms, but
+ # it fixing that would add additional complexity.
+ 
++__afl_area_ptr
++__afl_prev_loc
++
+ __assert_fail
+ calloc
+ chdir
