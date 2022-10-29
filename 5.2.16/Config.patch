@@ -1,5 +1,5 @@
---- Config.kmk	2018-07-16 07:56:47.000000000 -0700
-+++ Config.kmk	2022-10-20 22:02:58.628579024 -0700
+--- VirtualBox-5.2.16/Config.kmk	2018-07-16 07:56:47.000000000 -0700
++++ VirtualBox-5.2.16/Config.kmk	2022-10-20 22:02:58.628579024 -0700
 @@ -1501,12 +1501,12 @@
     TOOL_GXX3PLAIN_LD_SYSMOD ?= /usr/ccs/bin/ld
    endif
